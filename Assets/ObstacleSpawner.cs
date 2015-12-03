@@ -6,7 +6,7 @@ public class ObstacleSpawner : MonoBehaviour {
 	public GameObject obstacle;
 
 	public static int numInitialObstacles = 10;
-	public static float respawnTime = 2.0f;
+	public static float respawnTime = 1.0f;
 	public static float spawnDistance = 80.0f;
 
 	// Minimum and maximum coordinates of the space.
