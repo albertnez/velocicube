@@ -12,7 +12,6 @@ public class Game : MonoBehaviour {
 	void Start () {
 		gridMaterial = Resources.Load("Grid", typeof(Material))as Material;
 		float tiling = gridMaterial.mainTextureScale.y;
-		Debug.Log("Tiling: " + tiling.ToString());
 		gridSpeed = obstacleSpeed / (10.0f*wallDepthScale) * tiling;
 	}
 	
