@@ -32,13 +32,13 @@ public class ObstacleSpawner : MonoBehaviour {
 		typeObstacles = new GameObject[] {
 			Resources.Load("Obstacles/HorizontalColumn") as GameObject,
 			Resources.Load("Obstacles/MovingColumn") as GameObject,
-      Resources.Load("Obstacles/Pi") as GameObject,
-      Resources.Load("Obstacles/Portal") as GameObject,
-      Resources.Load("Obstacles/RotatingColumn") as GameObject,
-      Resources.Load("Obstacles/ZShape") as GameObject,
-      Resources.Load("Obstacles/Table") as GameObject,
-      Resources.Load("Obstacles/Jump") as GameObject,
-    };
+			Resources.Load("Obstacles/Pi") as GameObject,
+			Resources.Load("Obstacles/Portal") as GameObject,
+			Resources.Load("Obstacles/RotatingColumn") as GameObject,
+			Resources.Load("Obstacles/ZShape") as GameObject,
+			Resources.Load("Obstacles/Table") as GameObject,
+			Resources.Load("Obstacles/Jump") as GameObject,
+		};
 		timeToRespawn = respawnTime;
 		spawnPoint = new Vector3(0.0f, 0.0f, spawnDistance);
 	}
@@ -56,21 +56,22 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	// Decide next kind of obstacle to spawn.
 	private void SpawnObstacle() {
-    GameObject which = typeObstacles[Random.Range(0, typeObstacles.Length)];
-    GameObject instance = (GameObject)Instantiate(
-        which, spawnPoint + transform.position, transform.rotation);
-    // With probability 0.5, flip
-    if (Random.value < 0.5f) {
-      instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
-      instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
-      // When rotating along Y axis, we must change direction.
-      instance.GetComponent<ObstacleMove>().direction *= -1;
-    }
+		GameObject which = typeObstacles[Random.Range(0, typeObstacles.Length)];
+		GameObject instance = (GameObject)Instantiate(
+				which, spawnPoint + transform.position, transform.rotation);
+		// With probability 0.5, flip
+		if (Random.value < 0.5f) {
+			instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
+			instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
+			// When rotating along Y axis, we must change direction.
+			instance.GetComponent<ObstacleMove>().direction *= -1;
+		}
 	}
 
 	// Creates a column in the given position of X and Y.
 	private void CreateObstacle(Vector3 pos, Vector3 scale) {
-		GameObject instance = (GameObject) Instantiate(obstacle, spawnPoint + pos, transform.rotation);
+		GameObject instance = (GameObject) Instantiate(
+				obstacle, spawnPoint + pos, transform.rotation);
 		instance.transform.localScale = scale;
 	}
 }
