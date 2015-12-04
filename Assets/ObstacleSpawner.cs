@@ -36,6 +36,8 @@ public class ObstacleSpawner : MonoBehaviour {
       Resources.Load("Obstacles/Portal") as GameObject,
       Resources.Load("Obstacles/RotatingColumn") as GameObject,
       Resources.Load("Obstacles/ZShape") as GameObject,
+      Resources.Load("Obstacles/Table") as GameObject,
+      Resources.Load("Obstacles/Jump") as GameObject,
     };
 		timeToRespawn = respawnTime;
 		spawnPoint = new Vector3(0.0f, 0.0f, spawnDistance);

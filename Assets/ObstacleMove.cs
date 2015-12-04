@@ -13,7 +13,7 @@ public class ObstacleMove : MonoBehaviour {
 	void Update () {
 		gameObject.transform.Translate(0.0f, 0.0f, -direction * Game.obstacleSpeed * Time.deltaTime);
 		// If obstacle if out of bounds, delete.
-		if (gameObject.transform.position.z < -20.0f) {
+		if (gameObject.transform.position.z < -100.0f) {
 			Destroy (gameObject);
 		}
 	}
