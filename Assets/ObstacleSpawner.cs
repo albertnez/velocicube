@@ -7,7 +7,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	public static int numInitialObstacles = 10;
 	public static float respawnTime = 1.0f;
-	public static float spawnDistance = 80.0f;
+	public static float spawnDistance = 160.0f;
 
 	// Minimum and maximum coordinates of the space.
 	public static float minX = -5.0f;

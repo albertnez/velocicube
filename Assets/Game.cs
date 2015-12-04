@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Game : MonoBehaviour {
 
-	static public float obstacleSpeed = 50.0f;
+	static public float obstacleSpeed = 60.0f;
 	static public float gridSpeed; 
 	static public Material gridMaterial;
-	static public float wallDepthScale = 10.0f;
+	static public float wallDepthScale = 20.0f;
 
 	// Use this for initialization
 	void Start () {
