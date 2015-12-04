@@ -4,6 +4,7 @@ using System.Collections;
 public class ObstacleSpawner : MonoBehaviour {
 
 	public GameObject obstacle;
+	public GameObject[] typeObstacles;
 
 	public static int numInitialObstacles = 10;
 	public static float respawnTime = 1.0f;
@@ -27,9 +28,17 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// Load all type of objects
+		typeObstacles = new GameObject[] {
+			Resources.Load("Obstacles/HorizontalColumn") as GameObject,
+			Resources.Load("Obstacles/MovingColumn") as GameObject,
+      Resources.Load("Obstacles/Pi") as GameObject,
+      Resources.Load("Obstacles/Portal") as GameObject,
+      Resources.Load("Obstacles/RotatingColumn") as GameObject,
+      Resources.Load("Obstacles/ZShape") as GameObject,
+    };
 		timeToRespawn = respawnTime;
 		spawnPoint = new Vector3(0.0f, 0.0f, spawnDistance);
-		obstacle = (GameObject)Resources.Load ("Obstacle");
 	}
 	
 	// Update is called once per frame
@@ -42,9 +51,19 @@ public class ObstacleSpawner : MonoBehaviour {
 		}
 	}
 
+
 	// Decide next kind of obstacle to spawn.
 	private void SpawnObstacle() {
-		SpawnPortal ();
+    GameObject which = typeObstacles[Random.Range(0, typeObstacles.Length)];
+    GameObject instance = (GameObject)Instantiate(
+        which, spawnPoint + transform.position, transform.rotation);
+    // With probability 0.5, flip
+    if (Random.value < 0.5f) {
+      instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
+      instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
+      // When rotating along Y axis, we must change direction.
+      instance.GetComponent<ObstacleMove>().direction *= -1;
+    }
 	}
 
 	// Creates a column in the given position of X and Y.
@@ -52,35 +71,4 @@ public class ObstacleSpawner : MonoBehaviour {
 		GameObject instance = (GameObject) Instantiate(obstacle, spawnPoint + pos, transform.rotation);
 		instance.transform.localScale = scale;
 	}
-
-
-	// Level 1 Obstacles:
-
-	static private float portalDistance = 15.0f;
-
-	// Spawns a portal (U shaped obstacle attached to walls) followed by missing bar.
-	private void SpawnPortal() {
-		Vector3[] scales = new [] {
-			new Vector3(width, scaleWidth, scaleWidth),
-			new Vector3(width, scaleWidth, scaleWidth),
-			new Vector3(scaleWidth, height, scaleWidth),
-			new Vector3(scaleWidth, height, scaleWidth)
-		};
-		Vector3[] positions = new [] {
-			new Vector3(midX, maxY),  // Top
-			new Vector3(midX, minY),  // Bottom
-			new Vector3(minX, midY),  // Left
-			new Vector3(maxX, midY)   // Right
-		};
-
-		// One of them gets Z further
-		int ind = Mathf.Max (0, Mathf.CeilToInt(Random.value*positions.Length)-1);
-		positions[ind].z += portalDistance;
-
-		// Instantiate all portals.
-		for (int i = 0; i < positions.Length; ++i) {
-			CreateObstacle (positions[i], scales[i]);
-		}
-	}
-	
 }
