@@ -4,8 +4,9 @@ using System.Collections;
 public class MoveCamera : MonoBehaviour {
     public float speed;
     public float rotationSpeed;
-    public Vector3 playerPos;
+    public GameObject player;
     Floor FloorWall;
+    private Vector3 offset;
     //move towards angle
 
 
@@ -16,7 +17,7 @@ public class MoveCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        /*if (Input.GetKey(KeyCode.LeftArrow))
         {
             gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
         }
@@ -25,7 +26,9 @@ public class MoveCamera : MonoBehaviour {
             gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
             
 
-        }
+        }*/
+
+        transform.position = transform.postion +
             
 
     }
