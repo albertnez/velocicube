@@ -54,13 +54,24 @@ public class MoveCamera : MonoBehaviour {
         }
 
     }
-    public void Rotate(Floor NewFloor, Vector3 pos)
+
+    public void Flip(Floor NewFloor)
+    {
+        gameObject.transform.Rotate(-20.0f, 0.0f, 0.0f);
+        gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+        gameObject.transform.Rotate(20.0f, 0.0f, 0.0f);
+        FloorWall = NewFloor;
+    }
+
+    public void Rotate(Floor NewFloor)
     {
         if(FloorWall != NewFloor)
         {
             if (
                 (NewFloor == Floor.Bottom && FloorWall == Floor.Left) ||
-                (NewFloor > FloorWall && (NewFloor != Floor.Left || FloorWall != Floor.Bottom))
+                (NewFloor > FloorWall && (
+                    NewFloor != Floor.Left || FloorWall != Floor.Bottom)
+                    )
                 )
             {
                 gameObject.transform.Translate(-2.5f, -2.5f, 0.0f);
@@ -79,7 +90,9 @@ public class MoveCamera : MonoBehaviour {
             }
             if (gameObject.transform.position.z < -20.0f)
             {
-                gameObject.transform.Translate(0.0f, 0.0f, -20.0f-gameObject.transform.position.z);
+                gameObject.transform.Translate(
+                    0.0f, 0.0f, -20.0f-gameObject.transform.position.z
+                    );
             }
 
 

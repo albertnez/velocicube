@@ -37,63 +37,62 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 pos = gameObject.transform.localPosition;
+        Vector3 pos = gameObject.transform.position;
         if (pos.x < -4.5f)
         {
-            gameObject.transform.Translate(-4.5f - pos.x, 0.0f, 0.0f);
+            gameObject.transform.Translate(-4.5f - pos.x, 0.0f, 0.0f,Space.World);
         }
         if (pos.x > 4.5f)
         {
-            gameObject.transform.Translate(4.5f - pos.x, 0.0f, 0.0f);
+            gameObject.transform.Translate(4.5f - pos.x, 0.0f, 0.0f, Space.World);
         }
         if (pos.y < 0.5f)
         {
-            gameObject.transform.Translate(0.0f, 0.5f - pos.y, 0.0f);
+            gameObject.transform.Translate(0.0f, 0.5f - pos.y, 0.0f, Space.World);
         }
         if (pos.y > 4.5f)
         {
-            gameObject.transform.Translate(0.0f, 4.5f - pos.y, 0.0f);
+            gameObject.transform.Translate(0.0f, 4.5f - pos.y, 0.0f, Space.World);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            switch (FloorWall)
-            {
-                case Floor.Bottom:
-                    gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
-                    break;
-                case Floor.Left:
-                    gameObject.transform.Translate(0.0f, speed * Time.deltaTime, 0.0f);
-                    break;
-                case Floor.Right:
-                    gameObject.transform.Translate(0.0f, -speed * Time.deltaTime, 0.0f);
-                    break;
-                case Floor.Top:
-                    gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
-                    break;
-                default:
-                    break;
-            }
-            //cameraScript.playerPos = gameObject.transform.position;
+            gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
+
         }
         if (Input.GetKey(KeyCode.RightArrow))
+        {
+            gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
+
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             switch (FloorWall)
             {
                 case Floor.Bottom:
-                    gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
+                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    FloorWall = Floor.Top;
+                    cameraScript.Flip(FloorWall);
                     break;
                 case Floor.Left:
-                    gameObject.transform.Translate(0.0f, -speed * Time.deltaTime, 0.0f);
+                    gameObject.transform.Translate(-9.0f, 0.0f, 0.0f);
+                    FloorWall = Floor.Right;
+                    cameraScript.Flip(FloorWall);
                     break;
                 case Floor.Right:
-                    gameObject.transform.Translate(0.0f, speed * Time.deltaTime, 0.0f);
+                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    FloorWall = Floor.Left;
+                    cameraScript.Flip(FloorWall);
                     break;
                 case Floor.Top:
-                    gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
+                    gameObject.transform.Translate(0.0f, -4.0f, 0.0f);
+                    FloorWall = Floor.Bottom;
+                    cameraScript.Flip(FloorWall);
                     break;
                 default:
                     break;
             }
+            gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+
         }
 
     }
@@ -108,37 +107,56 @@ public class Player : MonoBehaviour
         }
         else if (other.CompareTag("RightWall") && FloorWall != Floor.Right)
         {
-
+            if(FloorWall == Floor.Bottom)
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+            }
+            else
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+            }
             FloorWall = Floor.Right;
-            Vector3 pos = gameObject.transform.position;
-            Vector3 posWall = other.transform.position;
-            //gameObject.transform.Translate(pos.x - posWall.x, 0.0f, 0.0f);
-            cameraScript.Rotate(FloorWall, pos);
+            cameraScript.Rotate(FloorWall);
         }
         else if (other.CompareTag("LeftWall") && FloorWall != Floor.Left)
         {
+            if (FloorWall == Floor.Top)
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+            }
+            else
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+            }
             FloorWall = Floor.Left;
-            Vector3 pos = gameObject.transform.position;
-            Vector3 posWall = other.transform.position;
-            //gameObject.transform.Translate(pos.x - posWall.x, 0.0f, 0.0f);
-            cameraScript.Rotate(FloorWall, pos);
+            cameraScript.Rotate(FloorWall);
 
         }
         else if (other.CompareTag("TopWall") && FloorWall != Floor.Top)
         {
+            if (FloorWall == Floor.Right)
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+            }
+            else
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+            }
             FloorWall = Floor.Top;
-            Vector3 pos = gameObject.transform.position;
-            Vector3 posWall = other.transform.position;
-            //gameObject.transform.Translate(0.0f, pos.y - posWall.y, 0.0f);
-            cameraScript.Rotate(FloorWall, pos);
+            cameraScript.Rotate(FloorWall);
         }
         else if (other.CompareTag("BottomWall") && FloorWall != Floor.Bottom)
         {
+            if (FloorWall == Floor.Left)
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+            }
+            else
+            {
+                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+            }
             FloorWall = Floor.Bottom;
-            Vector3 pos = gameObject.transform.position;
-            Vector3 posWall = other.transform.position;
-            //gameObject.transform.Translate(0.0f, pos.y - posWall.y, 0.0f);
-            cameraScript.Rotate(FloorWall,pos);
+            cameraScript.Rotate(FloorWall);
         }
     }
 }
