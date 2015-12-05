@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
                 case Floor.Left:
                     changingState = true;
                     FloorWall = Floor.Right;
-                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
                     
                     cameraScript.Flip(FloorWall);
                     changingState = false;
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
                 case Floor.Right:
                     changingState = true;
                     FloorWall = Floor.Left;
-                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
                     
                     cameraScript.Flip(FloorWall);
                     changingState = false;
