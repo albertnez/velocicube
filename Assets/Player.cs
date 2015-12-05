@@ -21,6 +21,19 @@ public class Player : MonoBehaviour
         FloorWall = Floor.Bottom;
     }
 
+    public float getPlanePosition()
+    {
+        if(FloorWall == Floor.Bottom || FloorWall == Floor.Top)
+        {
+            return transform.position.x;
+        }
+        else
+        {
+            return transform.position.y;
+        }
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -60,7 +73,7 @@ public class Player : MonoBehaviour
                 default:
                     break;
             }
-            cameraScript.playerPos = gameObject.transform.position;
+            //cameraScript.playerPos = gameObject.transform.position;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -82,6 +95,7 @@ public class Player : MonoBehaviour
                     break;
             }
         }
+
     }
 
     // When colliding with something

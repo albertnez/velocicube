@@ -4,7 +4,7 @@ using System.Collections;
 public class MoveCamera : MonoBehaviour {
     public float speed;
     public float rotationSpeed;
-    public GameObject player;
+    public Player player;
     Floor FloorWall;
     private Vector3 offset;
     //move towards angle
@@ -13,6 +13,7 @@ public class MoveCamera : MonoBehaviour {
     // Use this for initialization
     void Start () {
         FloorWall = Floor.Bottom;
+        offset = new Vector3(-5.0f, 3.0f, 0.0f);
 	}
 	
 	// Update is called once per frame
@@ -27,9 +28,30 @@ public class MoveCamera : MonoBehaviour {
             
 
         }*/
-
-        transform.position = transform.postion +
-            
+        float newx = player.getPlanePosition();
+        float oldx;
+        if(FloorWall == Floor.Bottom || FloorWall == Floor.Top)
+        {
+            oldx = gameObject.transform.localPosition.x;
+        }
+        else
+        {
+            oldx = gameObject.transform.localPosition.y;
+        }
+        float change = newx - oldx;
+        if(FloorWall == Floor.Top || FloorWall == Floor.Left)
+        {
+            gameObject.transform.Translate(-change, 0.0f, 0.0f);
+        }
+        else
+        {
+            gameObject.transform.Translate(change, 0.0f, 0.0f);
+        }
+        
+        if(FloorWall == Floor.Top)
+        {
+            oldx = oldx;
+        }
 
     }
     public void Rotate(Floor NewFloor, Vector3 pos)
