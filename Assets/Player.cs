@@ -15,9 +15,11 @@ public class Player : MonoBehaviour
     Floor FloorWall;
     public float speed;
     public MoveCamera cameraScript;
+    private bool changingState;
     // Use this for initialization
     void Start()
     {
+        changingState = false;
         FloorWall = Floor.Bottom;
     }
 
@@ -69,24 +71,36 @@ public class Player : MonoBehaviour
             switch (FloorWall)
             {
                 case Floor.Bottom:
-                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    changingState = true;
                     FloorWall = Floor.Top;
+                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    
                     cameraScript.Flip(FloorWall);
+                    changingState = false;
                     break;
                 case Floor.Left:
-                    gameObject.transform.Translate(-9.0f, 0.0f, 0.0f);
+                    changingState = true;
                     FloorWall = Floor.Right;
+                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    
                     cameraScript.Flip(FloorWall);
+                    changingState = false;
                     break;
                 case Floor.Right:
-                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    changingState = true;
                     FloorWall = Floor.Left;
+                    gameObject.transform.Translate(9.0f, 0.0f, 0.0f);
+                    
                     cameraScript.Flip(FloorWall);
+                    changingState = false;
                     break;
                 case Floor.Top:
-                    gameObject.transform.Translate(0.0f, -4.0f, 0.0f);
+                    changingState = true;
                     FloorWall = Floor.Bottom;
+                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    
                     cameraScript.Flip(FloorWall);
+                    changingState = false;
                     break;
                 default:
                     break;
@@ -105,58 +119,62 @@ public class Player : MonoBehaviour
             // TODO game over.
             Destroy(other.gameObject);
         }
-        else if (other.CompareTag("RightWall") && FloorWall != Floor.Right)
+        else if(!changingState)
         {
-            if(FloorWall == Floor.Bottom)
+            if (other.CompareTag("RightWall") && FloorWall != Floor.Right)
             {
-                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                if (FloorWall == Floor.Bottom)
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                }
+                else
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+                }
+                FloorWall = Floor.Right;
+                cameraScript.Rotate(FloorWall);
             }
-            else
+            else if (other.CompareTag("LeftWall") && FloorWall != Floor.Left)
             {
-                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
-            }
-            FloorWall = Floor.Right;
-            cameraScript.Rotate(FloorWall);
-        }
-        else if (other.CompareTag("LeftWall") && FloorWall != Floor.Left)
-        {
-            if (FloorWall == Floor.Top)
-            {
-                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
-            }
-            else
-            {
-                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
-            }
-            FloorWall = Floor.Left;
-            cameraScript.Rotate(FloorWall);
+                if (FloorWall == Floor.Top)
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                }
+                else
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+                }
+                FloorWall = Floor.Left;
+                cameraScript.Rotate(FloorWall);
 
-        }
-        else if (other.CompareTag("TopWall") && FloorWall != Floor.Top)
-        {
-            if (FloorWall == Floor.Right)
-            {
-                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
             }
-            else
+            else if (other.CompareTag("TopWall") && FloorWall != Floor.Top)
             {
-                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+                if (FloorWall == Floor.Right)
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                }
+                else
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+                }
+                FloorWall = Floor.Top;
+                cameraScript.Rotate(FloorWall);
             }
-            FloorWall = Floor.Top;
-            cameraScript.Rotate(FloorWall);
-        }
-        else if (other.CompareTag("BottomWall") && FloorWall != Floor.Bottom)
-        {
-            if (FloorWall == Floor.Left)
+            else if (other.CompareTag("BottomWall") && FloorWall != Floor.Bottom)
             {
-                gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                if (FloorWall == Floor.Left)
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                }
+                else
+                {
+                    gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
+                }
+                FloorWall = Floor.Bottom;
+                cameraScript.Rotate(FloorWall);
             }
-            else
-            {
-                gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
-            }
-            FloorWall = Floor.Bottom;
-            cameraScript.Rotate(FloorWall);
-        }
+        } 
+        
     }
 }

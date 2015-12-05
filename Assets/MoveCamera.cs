@@ -6,28 +6,15 @@ public class MoveCamera : MonoBehaviour {
     public float rotationSpeed;
     public Player player;
     Floor FloorWall;
-    private Vector3 offset;
-    //move towards angle
 
 
     // Use this for initialization
     void Start () {
         FloorWall = Floor.Bottom;
-        offset = new Vector3(-5.0f, 3.0f, 0.0f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        /*if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
-            
-
-        }*/
         float newx = player.getPlanePosition();
         float oldx;
         if(FloorWall == Floor.Bottom || FloorWall == Floor.Top)
@@ -58,7 +45,17 @@ public class MoveCamera : MonoBehaviour {
     public void Flip(Floor NewFloor)
     {
         gameObject.transform.Rotate(-20.0f, 0.0f, 0.0f);
+        if (NewFloor == Floor.Bottom || NewFloor == Floor.Top)
+        {
+            gameObject.transform.Translate(0.0f,-1.0f,0.0f);
+        }
+        else
+        {
+            gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+        }
         gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+        
+        
         gameObject.transform.Rotate(20.0f, 0.0f, 0.0f);
         FloorWall = NewFloor;
     }
