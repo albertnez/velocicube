@@ -86,16 +86,79 @@ public class MoveCamera : MonoBehaviour {
                     )
                 )
             {
-                gameObject.transform.Translate(-2.5f, -2.5f, 0.0f);
-                StartCoroutine(SmoothRotateCoroutine(90.0f, 1.0f));
+                if(NewFloor == Floor.Right)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(5.0f, 0.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        90.0f
+                        );
+                }
+                else if(NewFloor == Floor.Top)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(5.0f, 5.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        90.0f
+                        );
+                }
+                else if (NewFloor == Floor.Left)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(-5.0f, 5.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        90.0f
+                        );
+                }
+                else if (NewFloor == Floor.Bottom)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(-5.0f, 0.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        90.0f
+                        );
+                }
+
+                //gameObject.transform.Translate(-2.5f, -2.5f, 0.0f);
+                //StartCoroutine(SmoothRotateCoroutine(90.0f, 1.0f));
                 //gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
 
 
             }
             else
             {
-                gameObject.transform.Translate(2.5f, -2.5f, 0.0f);
-                StartCoroutine(SmoothRotateCoroutine(-90.0f, 1.0f));
+                if (NewFloor == Floor.Right)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(5.0f, 5.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        -90.0f
+                        );
+                }
+                else if (NewFloor == Floor.Top)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(-5.0f, 5.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        -90.0f
+                        );
+                }
+                else if (NewFloor == Floor.Left)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(-5.0f, 0.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        -90.0f
+                        );
+                }
+                else if (NewFloor == Floor.Bottom)
+                {
+                    gameObject.transform.RotateAround(
+                        new Vector3(5.0f, 0.0f, 0.0f),
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        -90.0f
+                        );
+                }
             }
             if (gameObject.transform.position.z < -20.0f)
             {

@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
                     gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
                 }
                 FloorWall = Floor.Right;
-                cameraScript.Rotate(FloorWall);
+                cameraScript.SmoothRotate(FloorWall);
             }
             else if (other.CompareTag("LeftWall") && FloorWall != Floor.Left)
             {
@@ -149,7 +149,7 @@ public class Player : MonoBehaviour
                     gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
                 }
                 FloorWall = Floor.Left;
-                cameraScript.Rotate(FloorWall);
+                cameraScript.SmoothRotate(FloorWall);
 
             }
             else if (other.CompareTag("TopWall") && FloorWall != Floor.Top)
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
                     gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
                 }
                 FloorWall = Floor.Top;
-                cameraScript.Rotate(FloorWall);
+                cameraScript.SmoothRotate(FloorWall);
             }
             else if (other.CompareTag("BottomWall") && FloorWall != Floor.Bottom)
             {
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
                     gameObject.transform.Rotate(0.0f, 0.0f, -90.0f);
                 }
                 FloorWall = Floor.Bottom;
-                cameraScript.Rotate(FloorWall);
+                cameraScript.SmoothRotate(FloorWall);
             }
         } 
         
