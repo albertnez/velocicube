@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public enum Floor
 {
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
     {
         changingState = false;
         FloorWall = Floor.Bottom;
-        
+
     }
 
     public Vector3 getPosition()
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
 
     public float getPlanePosition()
     {
-        if(FloorWall == Floor.Bottom || FloorWall == Floor.Top)
+        if (FloorWall == Floor.Bottom || FloorWall == Floor.Top)
         {
             return transform.position.x;
         }
@@ -39,7 +40,7 @@ public class Player : MonoBehaviour
         {
             return transform.position.y;
         }
-        
+
     }
 
     // Update is called once per frame
@@ -48,7 +49,7 @@ public class Player : MonoBehaviour
         Vector3 pos = gameObject.transform.position;
         if (pos.x < -4.5f)
         {
-            gameObject.transform.Translate(-4.5f - pos.x, 0.0f, 0.0f,Space.World);
+            gameObject.transform.Translate(-4.5f - pos.x, 0.0f, 0.0f, Space.World);
         }
         if (pos.x > 4.5f)
         {
@@ -74,50 +75,79 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            Vector3 target;
             switch (FloorWall)
             {
                 case Floor.Bottom:
-                    changingState = true;
                     FloorWall = Floor.Top;
-                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
-                    
-                    cameraScript.Flip(FloorWall);
-                    changingState = false;
+                    target = gameObject.transform.position;
+                    target.y = 4.5f;
+                    //gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.5f));
                     break;
                 case Floor.Left:
-                    changingState = true;
                     FloorWall = Floor.Right;
-                    gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
-                    
-                    cameraScript.Flip(FloorWall);
-                    changingState = false;
+                    target = gameObject.transform.position;
+                    target.x = 4.5f;
+                    //gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
+                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.5f));
                     break;
                 case Floor.Right:
-                    changingState = true;
                     FloorWall = Floor.Left;
-                    gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
-                    
-                    cameraScript.Flip(FloorWall);
-                    changingState = false;
+                    target = gameObject.transform.position;
+                    target.x = -4.5f;
+                    //gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
+                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.5f));
                     break;
                 case Floor.Top:
-                    changingState = true;
                     FloorWall = Floor.Bottom;
-                    gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
-                    
-                    cameraScript.Flip(FloorWall);
-                    changingState = false;
+                    target = gameObject.transform.position;
+                    target.y = 0.5f;
+                    //gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
+                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.5f));
                     break;
                 default:
                     break;
             }
-            gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+            //gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
 
         }
 
     }
 
-    
+    IEnumerator SmoothFlipCoroutine(Vector3 target, float distance, float rate)
+    {
+        yield return null;
+        float angle = 0;
+        Vector3 newPoint;
+        float currentDistance = 0;
+        float angleRate = 180.0f * rate / distance;
+        while (Math.Abs(currentDistance) < Math.Abs(distance))
+        {
+
+            currentDistance += rate;
+            angle += angleRate;
+            //gameObject.transform.Translate(0.0f, rate, 0.0f);
+            transform.position = Vector3.MoveTowards(
+                transform.position, target, rate
+                );
+            newPoint = gameObject.transform.position;
+            gameObject.transform.RotateAround(
+                        newPoint,
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        angleRate
+                        );
+            yield return null;
+        }
+        gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
+        newPoint = gameObject.transform.position;
+        gameObject.transform.RotateAround(
+                        newPoint,
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        180.0f - angle
+                        );
+        yield return null;
+    }
 
     // When colliding with something
     void OnTriggerEnter(Collider other)
@@ -127,7 +157,7 @@ public class Player : MonoBehaviour
             // TODO game over.
             Destroy(other.gameObject);
         }
-        else if(!changingState)
+        else if (!changingState)
         {
             if (other.CompareTag("RightWall") && FloorWall != Floor.Right)
             {
@@ -183,7 +213,7 @@ public class Player : MonoBehaviour
                 FloorWall = Floor.Bottom;
                 cameraScript.SmoothRotate(FloorWall);
             }
-        } 
-        
+        }
+
     }
 }
