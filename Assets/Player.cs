@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     {
         changingState = false;
         FloorWall = Floor.Bottom;
+        
     }
 
     public float getPlanePosition()
@@ -111,6 +112,8 @@ public class Player : MonoBehaviour
 
     }
 
+    
+
     // When colliding with something
     void OnTriggerEnter(Collider other)
     {
@@ -126,6 +129,7 @@ public class Player : MonoBehaviour
                 if (FloorWall == Floor.Bottom)
                 {
                     gameObject.transform.Rotate(0.0f, 0.0f, 90.0f);
+                    //StartCoroutine(SmoothRotate(90.0f, 1.0f));
                 }
                 else
                 {
