@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
         
     }
 
+    public Vector3 getPosition()
+    {
+        return transform.position;
+    }
+
     public float getPlanePosition()
     {
         if(FloorWall == Floor.Bottom || FloorWall == Floor.Top)
