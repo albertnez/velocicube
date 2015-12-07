@@ -13,6 +13,7 @@ public enum Floor
 
 public class Player : MonoBehaviour
 {
+    public GameObject coinExplosion;
     Floor FloorWall;
     public float speed;
     public MoveCamera cameraScript;
@@ -165,6 +166,7 @@ public class Player : MonoBehaviour
         {
             Game.CollectCoin();
             Destroy(other.gameObject);
+            Instantiate(coinExplosion, transform.position, transform.rotation);
         }
         else if (!changingState)
         {
