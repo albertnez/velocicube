@@ -161,6 +161,11 @@ public class Player : MonoBehaviour
             // TODO game over.
             Destroy(other.gameObject);
         }
+        else if (other.CompareTag("Coin"))
+        {
+            Game.CollectCoin();
+            Destroy(other.gameObject);
+        }
         else if (!changingState)
         {
             if (other.CompareTag("RightWall") && FloorWall != Floor.Right)

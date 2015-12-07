@@ -8,6 +8,8 @@ public class Game : MonoBehaviour {
 	static public Material gridMaterial;
 	static public float wallDepthScale = 20.0f;
 
+    static private int currentScore;
+
 	// Use this for initialization
 	void Start () {
 		gridMaterial = Resources.Load("Grid", typeof(Material))as Material;
@@ -19,4 +21,13 @@ public class Game : MonoBehaviour {
 	void Update () {
 		gridMaterial.mainTextureOffset += new Vector2(0.0f, - gridSpeed * Time.deltaTime);
 	}
+
+    // Called each time we start from first level.
+    static public void Restart() {
+        currentScore = 0;
+    }
+
+    static public void CollectCoin() {
+        currentScore += 10;
+    }
 }
