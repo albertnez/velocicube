@@ -159,8 +159,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Obstacle"))
         {
-            // TODO game over.
-            Destroy(other.gameObject);
+            Game.GameOver();
         }
         else if (other.CompareTag("Coin"))
         {

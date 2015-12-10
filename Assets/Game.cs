@@ -20,16 +20,10 @@ public class Game : MonoBehaviour {
 	void Update () {
 	}
 
-    // Menu Functions
-    static public void Play() {
-        SetGame();
-    }
-
-    static public void Credits() {
-    }
-
-    static public void Exit() {
-        Application.Quit();
+    // Called when the player dies.
+    static public void GameOver() {
+        SetMenu();
+        Application.LoadLevel("Menu");
     }
 
     // Sets the values for the menu.
