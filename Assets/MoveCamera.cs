@@ -44,12 +44,14 @@ public class MoveCamera : MonoBehaviour {
                         );
             yield return null;
         }
-        newPoint = player.getPosition();
+        gameObject.transform.localPosition = new Vector3(0.0f, 2.5f, -5.0f);
+        gameObject.transform.localEulerAngles = new Vector3(20.0f, 0.0f, 0.0f);
+        /*newPoint = player.getPosition();
         gameObject.transform.RotateAround(
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
                         difference - angle
-                        );
+                        );*/
         yield return null;
     }
 
@@ -90,11 +92,12 @@ public class MoveCamera : MonoBehaviour {
         //gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
         newPoint = gameObject.transform.position;
         gameObject.transform.localPosition = new Vector3(0.0f, 2.5f, -5.0f);
-        gameObject.transform.RotateAround(
+        gameObject.transform.localEulerAngles = new Vector3(20.0f, 0.0f, 0.0f);
+        /*gameObject.transform.RotateAround(
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
                         180.0f - angle
-                        );
+                        );*/
         yield return null;
     }
 
