@@ -82,34 +82,29 @@ public class Player : MonoBehaviour
                     FloorWall = Floor.Top;
                     target = gameObject.transform.position;
                     target.y = 4.5f;
-                    //gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
-                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.5f));
+                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.3f));
                     break;
                 case Floor.Left:
                     FloorWall = Floor.Right;
                     target = gameObject.transform.position;
                     target.x = 4.5f;
-                    //gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
-                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.5f));
+                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.3f));
                     break;
                 case Floor.Right:
                     FloorWall = Floor.Left;
                     target = gameObject.transform.position;
                     target.x = -4.5f;
-                    //gameObject.transform.Translate(0.0f, 9.0f, 0.0f);
-                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.5f));
+                    StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.3f));
                     break;
                 case Floor.Top:
                     FloorWall = Floor.Bottom;
                     target = gameObject.transform.position;
                     target.y = 0.5f;
-                    //gameObject.transform.Translate(0.0f, 4.0f, 0.0f);
-                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.5f));
+                    StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.3f));
                     break;
                 default:
                     break;
             }
-            //gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
 
         }
 
@@ -117,7 +112,6 @@ public class Player : MonoBehaviour
 
     IEnumerator SmoothFlipCoroutine(Vector3 target, float distance, float rate)
     {
-        yield return null;
         float angle = 0;
         Vector3 newPoint;
         float currentDistance = 0;
@@ -137,6 +131,7 @@ public class Player : MonoBehaviour
                         new Vector3(0.0f, 0.0f, 1.0f),
                         angleRate
                         );
+            cameraScript.setFloor(FloorWall);
             yield return null;
         }
         gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);

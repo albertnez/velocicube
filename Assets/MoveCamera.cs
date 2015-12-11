@@ -23,6 +23,10 @@ public class MoveCamera : MonoBehaviour {
     {
         
     }
+    public void setFloor(Floor NewFloor)
+    {
+        FloorWall = NewFloor;
+    }
 
     IEnumerator SmoothRotateCoroutine(float difference, float duration)
     {
@@ -46,6 +50,50 @@ public class MoveCamera : MonoBehaviour {
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
                         difference-angle
+                        );
+        yield return null;
+    }
+
+
+    public void SmoothFlip(
+        Vector3 target, Vector3 origin, float distance, float rate, float time)
+    {
+        while(rate > 0)
+        {
+
+        }
+        
+    }
+
+    IEnumerator SmoothFlipCoroutine(Vector3 target, float distance, float rate)
+    {
+        float angle = 0;
+        Vector3 newPoint;
+        float currentDistance = 0;
+        float angleRate = 180.0f * rate / distance;
+        while (Math.Abs(currentDistance) < Math.Abs(distance))
+        {
+
+            currentDistance += rate;
+            angle += angleRate;
+            //gameObject.transform.Translate(0.0f, rate, 0.0f);
+            transform.position = Vector3.MoveTowards(
+                transform.position, target, rate
+                );
+            newPoint = gameObject.transform.position;
+            gameObject.transform.RotateAround(
+                        newPoint,
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        angleRate
+                        );
+            yield return null;
+        }
+        gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
+        newPoint = gameObject.transform.position;
+        gameObject.transform.RotateAround(
+                        newPoint,
+                        new Vector3(0.0f, 0.0f, 1.0f),
+                        180.0f - angle
                         );
         yield return null;
     }
