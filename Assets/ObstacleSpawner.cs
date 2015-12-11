@@ -6,7 +6,6 @@ public class ObstacleSpawner : MonoBehaviour {
 	public GameObject obstacle;
 	public GameObject[] typeObstacles;
 
-	public static int numInitialObstacles = 10;
 	public static float respawnTime = 1.0f;
 	public static float spawnDistance = 160.0f;
 
@@ -49,24 +48,28 @@ public class ObstacleSpawner : MonoBehaviour {
 	void Update () {
 		timeToRespawn -= Time.deltaTime;
 		if (timeToRespawn < 0) {
-			SpawnObstacle();
+            int ind = Random.Range(0, typeObstacles.Length);
+			SpawnObstacle(ind);
 			//CreateObstacle (new Vector3(0.0f, 0.0f, spawnDistance));
 			timeToRespawn = respawnTime;
+            if (ind == typeObstacles.Length - 1) {
+                timeToRespawn += respawnTime;
+            }
 		}
 	}
 
 
 	// Decide next kind of obstacle to spawn.
-	private void SpawnObstacle() {
-		GameObject which = typeObstacles[Random.Range(0, typeObstacles.Length)];
+	private void SpawnObstacle(int ind) {
+		GameObject which = typeObstacles[ind];
 		GameObject instance = (GameObject)Instantiate(
 				which, spawnPoint + transform.position, transform.rotation);
 		// With probability 0.5, flip
 		if (Random.value < 0.5f) {
 			instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
-			instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
-			// When rotating along Y axis, we must change direction.
-			instance.GetComponent<ObstacleMove>().direction *= -1;
+            Vector3 localScale = instance.transform.localScale;
+            localScale.x *= -1.0f;
+            instance.transform.localScale = localScale;
 		}
 	}
 
