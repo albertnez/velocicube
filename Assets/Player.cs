@@ -13,14 +13,17 @@ public enum Floor
 
 public class Player : MonoBehaviour
 {
+    public GameObject coinExplosion;
     Floor FloorWall;
     public float speed;
     public MoveCamera cameraScript;
     private bool changingState;
+    private bool flipping180;
     // Use this for initialization
     void Start()
     {
         changingState = false;
+        flipping180 = false;
         FloorWall = Floor.Bottom;
 
     }
@@ -63,18 +66,19 @@ public class Player : MonoBehaviour
         {
             gameObject.transform.Translate(0.0f, 4.5f - pos.y, 0.0f, Space.World);
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetAxisRaw("Horizontal") == -1)
         {
             gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
 
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetAxisRaw("Horizontal") == 1)
         {
             gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
 
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetAxisRaw("Vertical") == 1 && !flipping180)
         {
+            flipping180 = true;
             Vector3 target;
             switch (FloorWall)
             {
@@ -141,6 +145,7 @@ public class Player : MonoBehaviour
                         new Vector3(0.0f, 0.0f, 1.0f),
                         180.0f - angle
                         );
+        flipping180 = false;
         yield return null;
     }
 
@@ -149,8 +154,13 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Obstacle"))
         {
-            // TODO game over.
+            Game.GameOver();
+        }
+        else if (other.CompareTag("Coin"))
+        {
+            Game.CollectCoin();
             Destroy(other.gameObject);
+            Instantiate(coinExplosion, transform.position, transform.rotation);
         }
         else if (!changingState)
         {
