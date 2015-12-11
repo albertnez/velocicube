@@ -88,7 +88,10 @@ public class MoveCamera : MonoBehaviour {
                         angleRate
                         );
             yield return null;
-        }
+
+            /*SmoothDamp(float current, 
+                float target, rate, 0.2f);*/
+}
         //gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
         newPoint = gameObject.transform.position;
         gameObject.transform.localPosition = new Vector3(0.0f, 2.5f, -5.0f);
