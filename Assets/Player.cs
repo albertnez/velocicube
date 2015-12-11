@@ -86,25 +86,41 @@ public class Player : MonoBehaviour
                     FloorWall = Floor.Top;
                     target = gameObject.transform.position;
                     target.y = 4.5f;
+                    cameraScript.unchild();
+                    gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+                    cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.3f));
+                    cameraScript.SmoothFlip(target, 4.0f, 0.3f);
                     break;
                 case Floor.Left:
                     FloorWall = Floor.Right;
                     target = gameObject.transform.position;
                     target.x = 4.5f;
+                    cameraScript.unchild();
+                    gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+                    cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.3f));
+                    cameraScript.SmoothFlip(target, 9.0f, 0.3f);
                     break;
                 case Floor.Right:
                     FloorWall = Floor.Left;
                     target = gameObject.transform.position;
                     target.x = -4.5f;
+                    cameraScript.unchild();
+                    gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+                    cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 9.0f, 0.3f));
+                    cameraScript.SmoothFlip(target, 9.0f, 0.3f);
                     break;
                 case Floor.Top:
                     FloorWall = Floor.Bottom;
                     target = gameObject.transform.position;
                     target.y = 0.5f;
+                    cameraScript.unchild();
+                    gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
+                    cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 4.0f, 0.3f));
+                    cameraScript.SmoothFlip(target, 4.0f, 0.3f);
                     break;
                 default:
                     break;
@@ -120,31 +136,20 @@ public class Player : MonoBehaviour
         Vector3 newPoint;
         float currentDistance = 0;
         float angleRate = 180.0f * rate / distance;
+        
         while (Math.Abs(currentDistance) < Math.Abs(distance))
         {
 
             currentDistance += rate;
             angle += angleRate;
-            //gameObject.transform.Translate(0.0f, rate, 0.0f);
             transform.position = Vector3.MoveTowards(
                 transform.position, target, rate
                 );
             newPoint = gameObject.transform.position;
-            gameObject.transform.RotateAround(
-                        newPoint,
-                        new Vector3(0.0f, 0.0f, 1.0f),
-                        angleRate
-                        );
             cameraScript.setFloor(FloorWall);
             yield return null;
         }
-        gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
         newPoint = gameObject.transform.position;
-        gameObject.transform.RotateAround(
-                        newPoint,
-                        new Vector3(0.0f, 0.0f, 1.0f),
-                        180.0f - angle
-                        );
         flipping180 = false;
         yield return null;
     }

@@ -30,13 +30,12 @@ public class MoveCamera : MonoBehaviour {
 
     IEnumerator SmoothRotateCoroutine(float difference, float duration)
     {
-        yield return null;
         float t = 0;
         float angle = 0;
         Vector3 newPoint;
         while (Math.Abs(angle) < Math.Abs(difference))
         {
-            angle += difference* Time.deltaTime / 0.1f;
+            angle += difference * Time.deltaTime / 0.1f;
             newPoint = player.getPosition();
             gameObject.transform.RotateAround(
                         newPoint,
@@ -49,19 +48,16 @@ public class MoveCamera : MonoBehaviour {
         gameObject.transform.RotateAround(
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
-                        difference-angle
+                        difference - angle
                         );
         yield return null;
     }
 
 
     public void SmoothFlip(
-        Vector3 target, Vector3 origin, float distance, float rate, float time)
+        Vector3 target, float distance, float rate)
     {
-        while(rate > 0)
-        {
-
-        }
+        StartCoroutine(SmoothFlipCoroutine(target, distance, rate));
         
     }
 
@@ -69,6 +65,7 @@ public class MoveCamera : MonoBehaviour {
     {
         float angle = 0;
         Vector3 newPoint;
+        
         float currentDistance = 0;
         float angleRate = 180.0f * rate / distance;
         while (Math.Abs(currentDistance) < Math.Abs(distance))
@@ -77,10 +74,12 @@ public class MoveCamera : MonoBehaviour {
             currentDistance += rate;
             angle += angleRate;
             //gameObject.transform.Translate(0.0f, rate, 0.0f);
-            transform.position = Vector3.MoveTowards(
+            /*transform.position = Vector3.MoveTowards(
                 transform.position, target, rate
-                );
-            newPoint = gameObject.transform.position;
+                );*/
+            //newPoint = gameObject.transform.position;
+            newPoint = player.getPosition();
+            newPoint.z = -20.0f;
             gameObject.transform.RotateAround(
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
@@ -88,8 +87,9 @@ public class MoveCamera : MonoBehaviour {
                         );
             yield return null;
         }
-        gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
+        //gameObject.transform.Translate(0.0f, distance - currentDistance, 0.0f);
         newPoint = gameObject.transform.position;
+        gameObject.transform.localPosition = new Vector3(0.0f, 2.5f, -5.0f);
         gameObject.transform.RotateAround(
                         newPoint,
                         new Vector3(0.0f, 0.0f, 1.0f),
@@ -139,4 +139,13 @@ public class MoveCamera : MonoBehaviour {
         }
     }
 
+
+    public void unchild()
+    {
+        gameObject.transform.parent = null;
+    }
+    public void child(Transform t)
+    {
+        gameObject.transform.parent = t;
+    }
 }
