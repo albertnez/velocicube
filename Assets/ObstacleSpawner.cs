@@ -67,9 +67,9 @@ public class ObstacleSpawner : MonoBehaviour {
 		// With probability 0.5, flip
 		if (Random.value < 0.5f) {
 			instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
-            Vector3 localScale = instance.transform.localScale;
-            localScale.x *= -1.0f;
-            instance.transform.localScale = localScale;
+			instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
+			// When rotating along Y axis, we must change direction.
+			instance.GetComponent<ObstacleMove>().direction *= -1;
 		}
 	}
 
