@@ -25,6 +25,20 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	private float timeToRespawn;
 
+    public enum ObstacleId {
+        HorizontalColumn = 0,
+        MovingColumn,
+        Pi,
+        Portal,
+        RotatingColumn,
+        ZShape,
+        Table,
+        Jump,
+        TopDownObstacle,
+        Loop,
+        ReverseLoop,
+    };
+
 	// Use this for initialization
 	void Start () {
 		// Load all type of objects
@@ -39,6 +53,7 @@ public class ObstacleSpawner : MonoBehaviour {
 			Resources.Load("Obstacles/Jump") as GameObject,
 			Resources.Load("Obstacles/TopDownObstacle") as GameObject,
 			Resources.Load("Obstacles/Loop") as GameObject,
+			Resources.Load("Obstacles/ReverseLoop") as GameObject,
 		};
 		timeToRespawn = respawnTime;
 		spawnPoint = new Vector3(0.0f, 0.0f, spawnDistance);
@@ -65,7 +80,8 @@ public class ObstacleSpawner : MonoBehaviour {
 		GameObject instance = (GameObject)Instantiate(
 				which, spawnPoint + transform.position, transform.rotation);
 		// With probability 0.5, flip
-		if (Random.value < 0.5f) {
+		if (Random.value < 0.5f && 
+            ind != (int)ObstacleId.Loop && ind != (int)ObstacleId.ReverseLoop) {
 			instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
 			instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
 			// When rotating along Y axis, we must change direction.
