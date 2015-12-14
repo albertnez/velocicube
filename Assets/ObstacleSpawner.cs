@@ -64,35 +64,28 @@ public class ObstacleSpawner : MonoBehaviour {
 		timeToRespawn -= Time.deltaTime;
 		if (timeToRespawn < 0) {
             int ind = Random.Range(0, typeObstacles.Length);
-			SpawnObstacle(ind);
-			//CreateObstacle (new Vector3(0.0f, 0.0f, spawnDistance));
-			timeToRespawn = respawnTime;
-            if (ind == typeObstacles.Length - 1) {
-                timeToRespawn += respawnTime;
-            }
+			float depth = SpawnObstacle(ind);
+			timeToRespawn = respawnTime + depth / Game.obstacleSpeed;
 		}
 	}
 
 
-	// Decide next kind of obstacle to spawn.
-	private void SpawnObstacle(int ind) {
+    // Spawns an object and returns its depth.
+	private float SpawnObstacle(int ind) {
 		GameObject which = typeObstacles[ind];
 		GameObject instance = (GameObject)Instantiate(
 				which, spawnPoint + transform.position, transform.rotation);
-		// With probability 0.5, flip
+        float depth = instance.GetComponent<ObstacleMove>().depth;
+		// With probability 0.5, flip.
 		if (Random.value < 0.5f && 
             ind != (int)ObstacleId.Loop && ind != (int)ObstacleId.ReverseLoop) {
 			instance.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
 			instance.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
 			// When rotating along Y axis, we must change direction.
-			instance.GetComponent<ObstacleMove>().direction *= -1;
+            ObstacleMove om = instance.GetComponent<ObstacleMove>();
+            om.direction *= -1;
+            instance.transform.Translate(0.0f, 0.0f, om.direction * om.depth);
 		}
-	}
-
-	// Creates a column in the given position of X and Y.
-	private void CreateObstacle(Vector3 pos, Vector3 scale) {
-		GameObject instance = (GameObject) Instantiate(
-				obstacle, spawnPoint + pos, transform.rotation);
-		instance.transform.localScale = scale;
+        return depth;
 	}
 }

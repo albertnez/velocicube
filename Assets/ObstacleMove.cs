@@ -3,7 +3,10 @@ using System.Collections;
 
 public class ObstacleMove : MonoBehaviour {
 
-  public int direction = 1;
+    static public float destroyOffset = -100.0f;
+
+    public float depth = 0.0f;
+    public int direction = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +16,7 @@ public class ObstacleMove : MonoBehaviour {
 	void Update () {
 		gameObject.transform.Translate(0.0f, 0.0f, -direction * Game.obstacleSpeed * Time.deltaTime);
 		// If obstacle if out of bounds, delete.
-		if (gameObject.transform.position.z < -100.0f) {
+		if (gameObject.transform.position.z < destroyOffset - depth) {
 			Destroy (gameObject);
 		}
 	}
