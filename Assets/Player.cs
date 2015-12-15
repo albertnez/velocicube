@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public MoveCamera cameraScript;
     private bool changingState = false;
     private bool flipping180;
-    private float flipRate = 0.5f;
+    private float flipRate = 0.3f;
     // Use this for initialization
     void Start()
     {
@@ -70,16 +70,18 @@ public class Player : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == -1)
         {
             gameObject.transform.Translate(-speed * Time.deltaTime, 0.0f, 0.0f);
+            //cameraScript.tilt(-1.0f,gameObject.transform.position);
 
         }
         if (Input.GetAxisRaw("Horizontal") == 1)
         {
             gameObject.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
-
+            //cameraScript.tilt(1.0f,gameObject.transform.position);
         }
         if(Input.GetAxisRaw("Vertical") == 0)
         {
             changingState = false;
+            //cameraScript.untilt();
         }
         if (Input.GetAxisRaw("Vertical") == 1 && !flipping180 && !changingState)
         {
@@ -90,42 +92,54 @@ public class Player : MonoBehaviour
             {
                 case Floor.Bottom:
                     FloorWall = Floor.Top;
+                    cameraScript.setFloor(Floor.Top);
                     target = gameObject.transform.position;
+                    
                     target.y = 4.5f;
                     cameraScript.unchild();
                     gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
                     cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 4.0f, flipRate));
+                    target.y = 2.5f;
                     cameraScript.SmoothFlip(target, 4.0f, flipRate);
                     break;
                 case Floor.Left:
                     FloorWall = Floor.Right;
+                    cameraScript.setFloor(Floor.Right);
                     target = gameObject.transform.position;
+                    
                     target.x = 4.5f;
                     cameraScript.unchild();
                     gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
                     cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 9.0f, flipRate));
+                    target.x = 0.0f;
                     cameraScript.SmoothFlip(target, 9.0f, flipRate);
                     break;
                 case Floor.Right:
                     FloorWall = Floor.Left;
+                    cameraScript.setFloor(Floor.Left);
                     target = gameObject.transform.position;
                     target.x = -4.5f;
+                    
                     cameraScript.unchild();
                     gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
                     cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 9.0f, flipRate));
+                    target.x = 0.0f;
                     cameraScript.SmoothFlip(target, 9.0f, flipRate);
                     break;
                 case Floor.Top:
                     FloorWall = Floor.Bottom;
+                    cameraScript.setFloor(Floor.Bottom);
                     target = gameObject.transform.position;
                     target.y = 0.5f;
+                    
                     cameraScript.unchild();
                     gameObject.transform.Rotate(0.0f, 0.0f, 180.0f);
                     cameraScript.child(gameObject.transform);
                     StartCoroutine(SmoothFlipCoroutine(target, 4.0f, flipRate));
+                    target.y = 2.5f;
                     cameraScript.SmoothFlip(target, 4.0f, flipRate);
                     break;
                 default:
