@@ -12,7 +12,7 @@ public class Game : MonoBehaviour {
     static private int bestScore = 0;
     static public float gridSpeed = gridGameSpeed;
 
-    static private int pointsPerCoin = 100;
+    static private int pointsPerCoin = 500;
     static private int pointsPerStep = 1;
     // Use this for initialization
     void Start () {
