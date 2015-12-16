@@ -4,6 +4,8 @@ using System.Collections;
 public class Menu : MonoBehaviour {
 
     public UnityEngine.UI.Button playButton;
+    public UnityEngine.UI.Text bestScore;
+    public UnityEngine.UI.Text lastScore;
 
 	// Use this for initialization
 	void Start () {
@@ -11,6 +13,8 @@ public class Menu : MonoBehaviour {
         Game.SetMenu();
         // By default, select the Start button.
         playButton.Select();
+        bestScore.text = "Best Score: " + Game.getBestScore().ToString();
+        lastScore.text = "Last Score: " + Game.getLastScore().ToString();
 	}
 	
 	// Update is called once per frame

@@ -10,10 +10,12 @@ public class Game : MonoBehaviour {
     static private float gridMenuSpeed = 0.5f;
     static private int currentScore = 0;
     static private int bestScore = 0;
+    static private int lastScore = 0;
     static public float gridSpeed = gridGameSpeed;
 
     static private int pointsPerCoin = 500;
     static private int pointsPerStep = 1;
+    static private int pointsPerFullCoins = 1000;
     // Use this for initialization
     void Start () {
 	}
@@ -25,6 +27,7 @@ public class Game : MonoBehaviour {
     // Called when the player dies.
     static public void GameOver() {
         bestScore = Mathf.Max(bestScore, currentScore);
+        lastScore = currentScore;
         SetMenu();
         Application.LoadLevel("Menu");
     }
@@ -60,5 +63,13 @@ public class Game : MonoBehaviour {
 
     static public int getBestScore() {
         return bestScore;
+    }
+
+    static public int getLastScore() {
+        return lastScore;
+    }
+
+    static public void FullCoins() {
+        currentScore += pointsPerFullCoins;
     }
 }

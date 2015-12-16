@@ -162,6 +162,10 @@ public class Player : MonoBehaviour
         {
             Game.CollectCoin();
             scoreSlider.value += 1;
+            if (scoreSlider.value >= scoreSlider.maxValue) {
+                Game.FullCoins();
+                scoreSlider.value = 0;
+            }
             Destroy(other.gameObject);
             Instantiate(coinExplosion, transform.position, transform.rotation);
         }
