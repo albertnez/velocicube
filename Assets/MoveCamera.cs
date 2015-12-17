@@ -10,7 +10,7 @@ public class MoveCamera : MonoBehaviour {
     public float tiltRate = 5.0f;
 
     private float flipOffset = 0.0f;
-    public float v = 5.0f;
+    public float flipVelocity = 3.0f;
     // Use this for initialization
     void Start () {
         FloorWall = Floor.Bottom;
@@ -63,12 +63,12 @@ public class MoveCamera : MonoBehaviour {
         Vector3 target, float distance, float rate)
     {
         StartCoroutine(SmoothFlipCoroutine(target, distance, rate));
-        StartCoroutine(SmoothFlipTranslateCoroutine(target, distance, rate));
+        //StartCoroutine(SmoothFlipTranslateCoroutine(target, distance, rate));
     }
 
     IEnumerator SmoothFlipTranslateCoroutine(Vector3 target, float distance, float rate)
     {
-        v = 5.0f;
+        float v = flipVelocity;
         flipOffset = 0.0f;
         while (flipOffset >= 0)
         {
@@ -96,6 +96,7 @@ public class MoveCamera : MonoBehaviour {
             flipOffset = flipOffset + delta;
             yield return null;
         }
+        gameObject.transform.localPosition = new Vector3(0.0f, 3.0f, -5.0f);
         yield return null;
         
     }
@@ -212,13 +213,7 @@ public class MoveCamera : MonoBehaviour {
     public void tilt(float d, Vector3 center)
     {
         float tilt = gameObject.transform.localEulerAngles.z;
-        if (tilt < maxTilt)
-            gameObject.transform.RotateAround(
-                    center,
-                    new Vector3(0.0f, 0.0f, 1.0f),
-                    Math.Min(tiltRate * d, maxTilt - tilt)
-                );
-        if(tilt > minTilt)
+        if(d < 0 && (tilt > minTilt || tilt<=maxTilt))
         {
             gameObject.transform.RotateAround(
                     center,
@@ -226,6 +221,15 @@ public class MoveCamera : MonoBehaviour {
                     Math.Min(tiltRate * d, maxTilt - tilt)
                 );
         }
+        if(d > 0 && (tilt < maxTilt||tilt >= minTilt))
+        {
+            gameObject.transform.RotateAround(
+                    center,
+                    new Vector3(0.0f, 0.0f, 1.0f),
+                    Math.Min(tiltRate * d, minTilt - tilt)
+                );
+        }
+        
     }
     public void untilt()
     {
