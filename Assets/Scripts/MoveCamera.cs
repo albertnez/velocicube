@@ -153,6 +153,7 @@ public class MoveCamera : MonoBehaviour {
         }
         newPoint = gameObject.transform.position;
         gameObject.transform.localEulerAngles = new Vector3(20.0f, 0.0f, 0.0f);
+        gameObject.transform.localPosition = new Vector3(0.0f, 2.5f, -5.0f);
         yield return null;
     }
 
