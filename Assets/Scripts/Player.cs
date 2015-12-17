@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System;
 
@@ -14,6 +15,7 @@ public enum Floor
 public class Player : MonoBehaviour
 {
     public GameObject coinExplosion;
+    public Slider scoreSlider;
     Floor FloorWall;
     public float speed;
     public MoveCamera cameraScript;
@@ -184,6 +186,11 @@ public class Player : MonoBehaviour
         else if (other.CompareTag("Coin"))
         {
             Game.CollectCoin();
+            scoreSlider.value += 1;
+            if (scoreSlider.value >= scoreSlider.maxValue) {
+                Game.FullCoins();
+                scoreSlider.value = 0;
+            }
             Destroy(other.gameObject);
             Instantiate(coinExplosion, transform.position, transform.rotation);
         }
