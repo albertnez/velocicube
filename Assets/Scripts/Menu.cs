@@ -8,14 +8,16 @@ public class Menu : MonoBehaviour {
     public UnityEngine.UI.Text lastScore;
 
 	// Use this for initialization
-	void Start () {
+    void Start () {
         // Set the speed of the tunnel.
         Game.SetMenu();
         // By default, select the Start button.
         playButton.Select();
-        bestScore.text = "Best Score: " + Game.getBestScore().ToString();
-        lastScore.text = "Last Score: " + Game.getLastScore().ToString();
-	}
+        int best = Game.getBestScore();
+        int last = Game.getLastScore();
+        bestScore.text = (best == last && best > 0 ? "New " : "") + "Best Score: " + best.ToString();
+        lastScore.text = "Last Score: " + last.ToString();
+    }
 	
 	// Update is called once per frame
 	void Update () {
