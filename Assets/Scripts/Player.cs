@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 {
     public LevelManager levelManager;
     public GameObject coinExplosion;
+    public GameObject levelExplosion;
     public Slider scoreSlider;
     Floor FloorWall;
     public float speed;
@@ -189,15 +190,15 @@ public class Player : MonoBehaviour
             Game.CollectCoin();
             scoreSlider.value += 1;
             // Advance level.
-            if (scoreSlider.value >= scoreSlider.maxValue) {
-                if (levelManager.HasNextLevel()) {
-                    Game.FullCoins();
-                    scoreSlider.value = 0;
-                    levelManager.NextLevel();
-                }
+            if (scoreSlider.value >= scoreSlider.maxValue && levelManager.HasNextLevel()) {
+                Game.FullCoins();
+                scoreSlider.value = 0;
+                levelManager.NextLevel();
+                Instantiate(levelExplosion, transform.position, transform.rotation);
+            } else {
+                Instantiate(coinExplosion, transform.position, transform.rotation);
             }
             Destroy(other.gameObject);
-            Instantiate(coinExplosion, transform.position, transform.rotation);
         }
         else if (!changingState)
         {
