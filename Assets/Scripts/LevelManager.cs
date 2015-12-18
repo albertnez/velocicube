@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour {
         new Color(0.496f, 0.880f, 0.886f, 1.0f),  // Light Blue.
         new Color(0.15f, 0.015f, 0.62f, 0.75f),  // Dark blue.
         new Color(0.26f, 0.45f, 0.21f, 0.75f),  // Dark green.
-        new Color(1.0f, 0.862f, 0.101f, 0.75f),  // Yellow.
+        new Color(1.0f, 1.0f, 1.0f, 1.00f),  // Yellow.
     };
 
     public GameObject wallTop;
@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour {
     private Material[] vertMaterials;
     private Material[] horMaterials;
     private Material[] playerMaterials;
-    private int currentLevel = 1;
+    private int currentLevel = 6;
 
 	// Use this for initialization
 	void Start () {
@@ -59,6 +59,10 @@ public class LevelManager : MonoBehaviour {
         }
         ++currentLevel;
         SetMaterials();
+    }
+
+    public int GetCurrentLevel() {
+        return currentLevel;
     }
 
 	// Update is called once per frame

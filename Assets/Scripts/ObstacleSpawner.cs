@@ -2,46 +2,71 @@
 using System.Collections;
 
 public class ObstacleSpawner : MonoBehaviour {
+    // Class representing a Range [from, to].
+    public class Range {
+        public Range() {
+        }
 
+        public Range(int from, int to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        public int from { get; set; }
+        public int to { get; set; }
+    };
+
+    public LevelManager levelManager;
 	public GameObject obstacle;
 	public GameObject[] typeObstacles;
 
-	public static float respawnTime = 1.0f;
-	public static float spawnDistance = 160.0f;
+    public enum ObstacleId {
+        HorizontalColumn = 0,
+        CentralBlock,
+        SideBlock,
+        MovingColumn,
+        ZShape,
+        Portal,
+        ThreeColumns,
+        DodgeColumns,
+        Pi,
+        TopDownObstacle,
+        RotatingColumn,
+        Table,
+        Jump,
+        Loop,
+        ReverseLoop,
+    };
 
-	// Minimum and maximum coordinates of the space.
-	public static float minX = -5.0f;
-	public static float maxX = 5.0f;
-	public static float midX = (minX + maxX) / 2.0f;
-	public static float width = maxX - minX;
-	public static float minY = 0.0f;
-	public static float maxY = 5.0f;
-	public static float midY = (minY + maxY) / 2.0f;
-	public static float height = maxY - minY;
+    private float[] respawnTime = {
+        1.0f,  // Level 0.
+        3.0f,
+        1.5f,
+        1.0f,
+        0.8f,
+        0.7f,
+        0.5f,
+        0.5f,
+    };
+
+    private static Range[] obstaclesInLevel = {
+        // First is level 0.
+        new Range((int)ObstacleId.HorizontalColumn, (int)ObstacleId.HorizontalColumn),
+        new Range((int)ObstacleId.HorizontalColumn, (int)ObstacleId.SideBlock),
+        new Range((int)ObstacleId.Portal, (int)ObstacleId.Pi),
+        new Range((int)ObstacleId.Loop, (int)ObstacleId.ReverseLoop),
+        new Range((int)ObstacleId.HorizontalColumn, (int)ObstacleId.Table),
+        new Range((int)ObstacleId.HorizontalColumn, (int)ObstacleId.ReverseLoop),
+        new Range((int)ObstacleId.HorizontalColumn, (int)ObstacleId.ReverseLoop),
+    };
+
+	private static float spawnDistance = 160.0f;
 
 	// Obstacle sizes
 	public static float scaleWidth = 1.0f;
 	private static Vector3 spawnPoint;
 
 	private float timeToRespawn;
-
-    public enum ObstacleId {
-        HorizontalColumn = 0,
-        CentralBlock,
-        SideBlock,
-        ThreeColumns,
-        DodgeColumns,
-        MovingColumn,
-        Pi,
-        Portal,
-        RotatingColumn,
-        ZShape,
-        Table,
-        Jump,
-        TopDownObstacle,
-        Loop,
-        ReverseLoop,
-    };
 
 	// Use this for initialization
 	void Start () {
@@ -63,7 +88,7 @@ public class ObstacleSpawner : MonoBehaviour {
 			Resources.Load("Obstacles/Loop") as GameObject,
 			Resources.Load("Obstacles/ReverseLoop") as GameObject,
 		};
-		timeToRespawn = respawnTime;
+		timeToRespawn = respawnTime[levelManager.GetCurrentLevel()];
 		spawnPoint = new Vector3(0.0f, 0.0f, spawnDistance);
 	}
 	
@@ -71,9 +96,12 @@ public class ObstacleSpawner : MonoBehaviour {
 	void Update () {
 		timeToRespawn -= Time.deltaTime;
 		if (timeToRespawn < 0) {
-            int ind = Random.Range(0, typeObstacles.Length);
+            Range range = obstaclesInLevel[levelManager.GetCurrentLevel()];
+            // Select from the available this level.
+            int ind = Random.Range(range.from, range.to+1);
 			float depth = SpawnObstacle(ind);
-			timeToRespawn = respawnTime + depth / Game.obstacleSpeed;
+			timeToRespawn = respawnTime[levelManager.GetCurrentLevel()] + 
+                            depth / Game.obstacleSpeed;
 		}
 	}
 
