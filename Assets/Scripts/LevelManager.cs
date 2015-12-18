@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour {
         new Color(0.321f, 0.294f, 0.725f, 0.75f),  // Level 0. Not used.
         new Color(0.321f, 0.294f, 0.725f, 0.75f),  // Dark blue.
         new Color(1.0f, 0.1f, 0.875f, 0.75f),  // Pink.
-        new Color(0.396f, 0.780f, 0.886f, 0.85f),  // Light Blue.
+        new Color(0.496f, 0.880f, 0.886f, 1.0f),  // Light Blue.
         new Color(0.15f, 0.015f, 0.62f, 0.75f),  // Dark blue.
         new Color(0.26f, 0.45f, 0.21f, 0.75f),  // Dark green.
         new Color(1.0f, 0.862f, 0.101f, 0.75f),  // Yellow.
@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour {
     public GameObject wallRight;
     public GameObject player;
     public Material obstacleMaterial;
+    public UnityEngine.UI.Text levelText;
     private Material[] vertMaterials;
     private Material[] horMaterials;
     private Material[] playerMaterials;
@@ -45,6 +46,7 @@ public class LevelManager : MonoBehaviour {
         wallRight.GetComponent<Renderer>().material = vertMaterials[currentLevel];
         player.GetComponent<Renderer>().material = playerMaterials[currentLevel];
         obstacleMaterial.color = obstacleColors[currentLevel];
+        levelText.text = "Level " + currentLevel.ToString();
     }
 	
     public bool HasNextLevel() {
