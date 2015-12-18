@@ -14,6 +14,7 @@ public enum Floor
 
 public class Player : MonoBehaviour
 {
+    public LevelManager levelManager;
     public GameObject coinExplosion;
     public Slider scoreSlider;
     Floor FloorWall;
@@ -187,9 +188,13 @@ public class Player : MonoBehaviour
         {
             Game.CollectCoin();
             scoreSlider.value += 1;
+            // Advance level.
             if (scoreSlider.value >= scoreSlider.maxValue) {
-                Game.FullCoins();
-                scoreSlider.value = 0;
+                if (levelManager.HasNextLevel()) {
+                    Game.FullCoins();
+                    scoreSlider.value = 0;
+                    levelManager.NextLevel();
+                }
             }
             Destroy(other.gameObject);
             Instantiate(coinExplosion, transform.position, transform.rotation);
