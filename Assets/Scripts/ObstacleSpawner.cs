@@ -27,6 +27,10 @@ public class ObstacleSpawner : MonoBehaviour {
 
     public enum ObstacleId {
         HorizontalColumn = 0,
+        CentralBlock,
+        SideBlock,
+        ThreeColumns,
+        DodgeColumns,
         MovingColumn,
         Pi,
         Portal,
@@ -44,6 +48,10 @@ public class ObstacleSpawner : MonoBehaviour {
 		// Load all type of objects
 		typeObstacles = new GameObject[] {
 			Resources.Load("Obstacles/HorizontalColumn") as GameObject,
+			Resources.Load("Obstacles/CentralBlock") as GameObject,
+			Resources.Load("Obstacles/SideBlock") as GameObject,
+			Resources.Load("Obstacles/ThreeColumns") as GameObject,
+			Resources.Load("Obstacles/DodgeColumns") as GameObject,
 			Resources.Load("Obstacles/MovingColumn") as GameObject,
 			Resources.Load("Obstacles/Pi") as GameObject,
 			Resources.Load("Obstacles/Portal") as GameObject,
