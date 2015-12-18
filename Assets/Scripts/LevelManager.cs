@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour {
     private Material[] vertMaterials;
     private Material[] horMaterials;
     private Material[] playerMaterials;
-    private int currentLevel = 6;
+    private int currentLevel = 1;
 
 	// Use this for initialization
 	void Start () {
